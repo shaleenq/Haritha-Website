@@ -1,0 +1,20 @@
+{
+  "name": "solid-ceylon-global-link",
+  "version": "1.0.0",
+  "description": "Official Web Platform for SOLID CEYLON GLOBAL LINK (PVT) LTD - Export and Import Solutions, Agricultural Value Chains, Educational Gateways, and Secure Investment Portfolios",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "solid-ceylon",
+    "export-import",
+    "sri-lanka",
+    "verdant-ceylon",
+    "astral-institute"
+  ],
+  "author": "SOLID CEYLON GLOBAL LINK (PVT) LTD",
+  "license": "UNLICENSED",
+  "private": true
+}
