@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SOLID CEYLON GLOBAL LINK (PVT) LTD | Export & Import Solutions & Global Investments</title>
-  <meta name="description" content="SOLID CEYLON GLOBAL LINK (PVT) LTD (PV 00364030). Premier Sri Lankan export and import solutions, Verdant Ceylon spice cultivation, Astral Institute educational pathways, and secure high-yield investment portfolios.">
-  <meta name="keywords" content="Solid Ceylon Global Link, Haritha Jayaweera, Verdant Ceylon, Astral Institute, Ceylon Spices, Cinnamon Export, Sri Lanka Investment, PV 00364030">
+  <title>SOLID CEYLON GLOBAL LINK (PVT) LTD | Export & Import Solutions</title>
+  <meta name="description" content="SOLID CEYLON GLOBAL LINK (PVT) LTD (PV 00364030). Premier Sri Lankan export and import solutions, Verdant Ceylon spice cultivation, and Astral Institute educational pathways.">
+  <meta name="keywords" content="Solid Ceylon Global Link, Haritha Jayaweera, Verdant Ceylon, Astral Institute, Ceylon Spices, Cinnamon Export, PV 00364030">
   <meta name="author" content="SOLID CEYLON GLOBAL LINK (PVT) LTD">
 
   <!-- Open Graph -->
   <meta property="og:title" content="SOLID CEYLON GLOBAL LINK (PVT) LTD | Export & Import Solutions">
-  <meta property="og:description" content="Certified Sri Lankan Corporation (PV 00364030). Export solutions, spice cultivations, and high-yield investment partnerships.">
+  <meta property="og:description" content="Certified Sri Lankan Corporation (PV 00364030). Export solutions, spice cultivations, and global trade partnerships.">
   <meta property="og:image" content="/assets/solid-ceylon-global-link-emblem.jpeg">
   <meta property="og:type" content="website">
 
@@ -66,7 +66,6 @@
           <li><a href="#about" class="nav-link" id="navAbout">About Us</a></li>
           <li><a href="#subsidiaries" class="nav-link" id="navSubsidiaries">Subsidiaries</a></li>
           <li><a href="#exports" class="nav-link" id="navExports">Exports & Trade</a></li>
-          <li><a href="#investments" class="nav-link" id="navInvestments">Investments</a></li>
           <li><a href="#leadership" class="nav-link" id="navLeadership">Leadership</a></li>
           <li><a href="#media" class="nav-link" id="navMedia">Media & Certificate</a></li>
           <li><a href="#contact" class="nav-link" id="navContact">Contact</a></li>
@@ -113,8 +112,8 @@
           </div>
 
           <div class="hero-actions">
-            <a href="#investments" class="btn btn-gold hero-btn" id="heroInvestCta">
-              Explore Investment Plans ➔
+            <a href="#contact" class="btn btn-gold hero-btn" id="heroContactCta">
+              Connect With Us ➔
             </a>
             <button class="btn btn-glass hero-btn play-promo-video-btn" id="heroWatchVideoBtn" type="button">
               ▶ Watch Corporate Film
@@ -336,151 +335,7 @@
       </div>
     </section>
 
-    <!-- Investment Yield Matrix & Interactive Calculator -->
-    <section class="section" id="investments">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-pretitle">High-Yield Wealth Creation</span>
-          <h2 class="section-title investments-title">Secure High-Yield Investment Portfolios</h2>
-          <p class="section-description">
-            Backed by tangible agricultural assets, export receipts, and institutional governance. Guaranteed compound return schedules designed to safeguard your wealth while strengthening the national economy.
-          </p>
-        </div>
 
-        <div class="investments-layout">
-          <!-- Interactive Calculator -->
-          <div class="investment-calculator-card" id="investmentCalculator">
-            <div class="calculator-header">
-              <span class="badge badge-gold" style="margin-bottom: 8px;">Interactive Simulator</span>
-              <h3 class="calc-title">Project Your Investment Yield</h3>
-              <p class="calc-subtitle">Adjust your principal allocation to view official 1, 2, and 3-year projected returns.</p>
-            </div>
-
-            <!-- Error Banner -->
-            <div class="calc-error-banner" id="calcErrorBanner"></div>
-
-            <div class="calc-input-block">
-              <div class="calc-input-label-row">
-                <span class="calc-input-label">Investment Principal:</span>
-                <span class="calc-principal-display" id="calcPrincipalDisplay">LKR 500,000</span>
-              </div>
-
-              <!-- Range Slider -->
-              <div class="slider-range-wrap">
-                <input type="range" class="investment-slider" id="investmentSlider" min="100000" max="3000000" step="50000" value="500000" aria-label="Investment amount slider">
-              </div>
-
-              <!-- Quick Presets -->
-              <div class="preset-buttons-row">
-                <button type="button" class="calc-preset-btn" data-amount="100000">1 Lakh (100k)</button>
-                <button type="button" class="calc-preset-btn" data-amount="300000">3 Lakhs (300k)</button>
-                <button type="button" class="calc-preset-btn active" data-amount="500000">5 Lakhs (500k)</button>
-                <button type="button" class="calc-preset-btn" data-amount="1000000">10 Lakhs (1M)</button>
-                <button type="button" class="calc-preset-btn" data-amount="3000000">30 Lakhs (3M)</button>
-              </div>
-
-              <!-- Custom Input -->
-              <div class="custom-input-wrap">
-                <span class="custom-currency-prefix">LKR</span>
-                <input type="number" class="custom-amount-input" id="customAmountInput" value="500000" min="50000" max="50000000" step="10000" placeholder="Enter custom principal" aria-label="Custom investment principal">
-              </div>
-            </div>
-
-            <!-- Yield Outputs -->
-            <div class="yield-results-grid">
-              <div class="yield-tier-box">
-                <div class="yield-period-label">Year 1 End (1.25x)</div>
-                <div class="yield-value" id="calcYear1Return">LKR 625,000</div>
-                <div class="yield-growth-pill">+25% Return</div>
-              </div>
-
-              <div class="yield-tier-box">
-                <div class="yield-period-label">Year 2 End (1.54x)</div>
-                <div class="yield-value" id="calcYear2Return">LKR 770,000</div>
-                <div class="yield-growth-pill">+54% Compound</div>
-              </div>
-
-              <div class="yield-tier-box highlight">
-                <div class="yield-period-label">Year 3 End (1.87x)</div>
-                <div class="yield-value" id="calcYear3Return">LKR 935,000</div>
-                <div class="yield-growth-pill">+87% Compound</div>
-              </div>
-            </div>
-
-            <div class="calc-net-summary">
-              <span>Estimated 3-Year Net Profit:</span>
-              <strong class="calc-net-profit" id="calcYear3Profit">+LKR 435,000 (87% Net Profit)</strong>
-            </div>
-
-            <button class="btn btn-gold" id="calcInvestCta" style="width: 100%;" type="button">
-              Lock In This Plan With Executive Office ➔
-            </button>
-          </div>
-
-          <!-- Official Matrix Schedule Card -->
-          <div class="investment-schedule-card">
-            <div class="schedule-header">
-              <h3>Official Fixed Growth Matrix</h3>
-              <span class="badge badge-gold">Verified Schedule</span>
-            </div>
-
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-              Extracted from official company records. All returns are backed by registered export inventory and legal contracts.
-            </p>
-
-            <div class="schedule-table-wrap">
-              <table class="investment-table">
-                <thead>
-                  <tr>
-                    <th>Principal (ආයෝජනය)</th>
-                    <th>Year 1 (වසර 1)</th>
-                    <th>Year 2 (වසර 2)</th>
-                    <th>Year 3 (වසර 3)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="col-bold">LKR 100,000</td>
-                    <td>Rs. 125,000</td>
-                    <td>Rs. 154,000</td>
-                    <td class="col-bold">Rs. 187,000</td>
-                  </tr>
-                  <tr>
-                    <td class="col-bold">LKR 300,000</td>
-                    <td>Rs. 375,000</td>
-                    <td>Rs. 462,000</td>
-                    <td class="col-bold">Rs. 561,000</td>
-                  </tr>
-                  <tr>
-                    <td class="col-bold">LKR 500,000</td>
-                    <td>Rs. 625,000</td>
-                    <td>Rs. 770,000</td>
-                    <td class="col-bold">Rs. 935,000</td>
-                  </tr>
-                  <tr>
-                    <td class="col-bold">LKR 1,000,000</td>
-                    <td>Rs. 1,250,000</td>
-                    <td>Rs. 1,540,000</td>
-                    <td class="col-bold">Rs. 1,870,000</td>
-                  </tr>
-                  <tr>
-                    <td class="col-bold">LKR 3,000,000</td>
-                    <td>Rs. 3,750,000</td>
-                    <td>Rs. 4,620,000</td>
-                    <td class="col-bold">Rs. 5,610,000</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="schedule-footer-notes">
-              <p><strong>Core Guarantee:</strong> විශ්වාසය | ස්ථාවරත්වය | පැහැදිලි අනාගතය</p>
-              <p>All contracts executed under the Companies Act No. 7 of 2007 with registered corporate guarantee deeds.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Executive Leadership Section -->
     <section class="section" id="leadership" style="background: rgba(8, 14, 26, 0.4);">
@@ -680,6 +535,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="/js/main.js"></script>
+  <script src="/js/app.js"></script>
 </body>
 </html>

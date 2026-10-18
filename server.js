@@ -12,7 +12,7 @@ const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = __dirname;
-const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
+const PUBLIC_DIR = fs.existsSync(path.join(ROOT_DIR, 'public', 'index.html')) ? path.join(ROOT_DIR, 'public') : ROOT_DIR;
 const ASSETS_DIR = path.join(ROOT_DIR, 'assets');
 const LOGS_DIR = path.join(ROOT_DIR, 'logs');
 const DEV_LOG_FILE = path.join(LOGS_DIR, 'dev.log');
