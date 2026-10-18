@@ -94,7 +94,9 @@ const REQUIRED_MEDIA_ASSETS = [
   'global-maritime-logistics.jpeg',
   'ratnapura-gem-landscape.jpeg',
   'ratnapura-gem-mining.jpeg',
-  'ratnapura-bopath-ella.jpeg'
+  'ratnapura-bopath-ella.jpeg',
+  'ratnapura-blue-sapphire-gems.jpeg',
+  'ratnapura-adams-peak-sunrise.jpeg'
 ];
 
 /**

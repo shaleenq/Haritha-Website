@@ -81,23 +81,116 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // --------------------------------------------------------------------------
-  // 2. Ratnapura Tourism & Tour Inquiries Handler
+  // 2. Ratnapura Tourism & Tour Inquiries Handler & Trip Estimator
   // --------------------------------------------------------------------------
   const ratnapuraTourForm = document.getElementById('ratnapuraTourForm');
   const tourSuccessMsg = document.getElementById('tourSuccessMsg');
+  const tourFullName = document.getElementById('tourFullName');
+  const tourContact = document.getElementById('tourContact');
+  const tourPackageSelect = document.getElementById('tourPackageSelect');
+  const tourSpecialNotes = document.getElementById('tourSpecialNotes');
+
+  // Interactive Tour Price Estimator
+  const calcTourType = document.getElementById('calcTourType');
+  const calcTravelers = document.getElementById('calcTravelers');
+  const calcHotelTier = document.getElementById('calcHotelTier');
+  const tourEstimatePrice = document.getElementById('tourEstimatePrice');
+  const tourEstimateLkr = document.getElementById('tourEstimateLkr');
+  const btnBookFromCalculator = document.getElementById('btnBookFromCalculator');
+
+  function updateTourEstimate() {
+    if (!calcTourType || !calcTravelers || !calcHotelTier) return;
+    const selectedOption = calcTourType.options[calcTourType.selectedIndex];
+    const baseRate = parseInt(selectedOption?.dataset?.base || 150, 10);
+    const travelers = parseInt(calcTravelers.value, 10) || 1;
+    const hotelTier = calcHotelTier.value;
+
+    let hotelMultiplier = 1.0;
+    if (hotelTier === 'luxury') hotelMultiplier = 1.6;
+    if (hotelTier === 'daytrip') hotelMultiplier = 0.85;
+
+    // Group scaling discount per person
+    let groupFactor = 1.0;
+    if (travelers === 2) groupFactor = 1.45;
+    else if (travelers === 4) groupFactor = 2.4;
+    else if (travelers === 8) groupFactor = 4.2;
+
+    const totalUsd = Math.round(baseRate * groupFactor * hotelMultiplier);
+    const approxLkr = Math.round(totalUsd * 308);
+
+    if (tourEstimatePrice) tourEstimatePrice.textContent = `$${totalUsd.toLocaleString()} USD`;
+    if (tourEstimateLkr) tourEstimateLkr.textContent = `(~LKR ${approxLkr.toLocaleString()})`;
+  }
+
+  if (calcTourType && calcTravelers && calcHotelTier) {
+    calcTourType.addEventListener('change', updateTourEstimate);
+    calcTravelers.addEventListener('change', updateTourEstimate);
+    calcHotelTier.addEventListener('change', updateTourEstimate);
+    updateTourEstimate();
+  }
+
+  if (btnBookFromCalculator) {
+    btnBookFromCalculator.addEventListener('click', function () {
+      const tourText = calcTourType.options[calcTourType.selectedIndex].text;
+      const guests = calcTravelers.options[calcTravelers.selectedIndex].text;
+      const lodging = calcHotelTier.options[calcHotelTier.selectedIndex].text;
+
+      if (tourPackageSelect) {
+        // Find best match or default
+        for (let i = 0; i < tourPackageSelect.options.length; i++) {
+          if (tourPackageSelect.options[i].text.includes(calcTourType.value)) {
+            tourPackageSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (tourSpecialNotes) {
+        tourSpecialNotes.value = `Estimated Plan: ${tourText} | ${guests} | ${lodging}`;
+      }
+
+      const formElem = document.getElementById('ratnapuraInquiry');
+      if (formElem) {
+        formElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (tourFullName) tourFullName.focus();
+    });
+  }
+
+  // Quick Tour Buttons
+  document.querySelectorAll('.open-tour-modal-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const tourName = this.dataset.tour || 'Bespoke Private VIP Itinerary';
+      if (tourPackageSelect) {
+        for (let i = 0; i < tourPackageSelect.options.length; i++) {
+          if (tourPackageSelect.options[i].value.includes(tourName) || tourName.includes(tourPackageSelect.options[i].text)) {
+            tourPackageSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      const formElem = document.getElementById('ratnapuraInquiry');
+      if (formElem) {
+        formElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (tourFullName) tourFullName.focus();
+    });
+  });
 
   if (ratnapuraTourForm) {
     ratnapuraTourForm.addEventListener('submit', async function (e) {
       e.preventDefault();
-      const fullName = document.getElementById('tourFullName')?.value.trim();
-      const contact = document.getElementById('tourContact')?.value.trim();
-      const selectedPackage = document.getElementById('tourPackageSelect')?.value;
+      const fullName = tourFullName?.value.trim();
+      const contact = tourContact?.value.trim();
+      const selectedPackage = tourPackageSelect?.value;
+      const notes = tourSpecialNotes?.value.trim() || '';
       const txId = 'tx_tour_' + Date.now().toString(36);
 
       logger.info('navigation', `Ratnapura tour inquiry submitted for ${selectedPackage}`, {
         fullName,
         contact,
-        selectedPackage
+        selectedPackage,
+        notes
       }, txId);
 
       try {
@@ -111,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
             fullName: fullName,
             phone: contact,
             inquiryType: 'Ratnapura Tourism & Gem Trails',
-            message: `Requested Package: ${selectedPackage}. Contact: ${contact}`
+            message: `Requested Package: ${selectedPackage}. Notes: ${notes}. Contact: ${contact}`
           })
         });
       } catch (err) {
