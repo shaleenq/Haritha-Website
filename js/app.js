@@ -81,131 +81,48 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // --------------------------------------------------------------------------
-  // 2. Investment Yield Calculator (INFO for normal, ERROR for broken logic)
+  // 2. Ratnapura Tourism & Tour Inquiries Handler
   // --------------------------------------------------------------------------
-  const investmentSlider = document.getElementById('investmentSlider');
-  const customAmountInput = document.getElementById('customAmountInput');
-  const presetButtons = document.querySelectorAll('.calc-preset-btn');
-  const year1ReturnEl = document.getElementById('calcYear1Return');
-  const year2ReturnEl = document.getElementById('calcYear2Return');
-  const year3ReturnEl = document.getElementById('calcYear3Return');
-  const year3ProfitEl = document.getElementById('calcYear3Profit');
-  const calcPrincipalDisplay = document.getElementById('calcPrincipalDisplay');
-  const calcErrorBanner = document.getElementById('calcErrorBanner');
-  const openInquiryBtn = document.getElementById('calcInvestCta');
+  const ratnapuraTourForm = document.getElementById('ratnapuraTourForm');
+  const tourSuccessMsg = document.getElementById('tourSuccessMsg');
 
-  // Exact Official Growth Multipliers from SOLID CEYLON GLOBAL LINK schedule:
-  // 100k -> Y1: 125k (1.25x), Y2: 154k (1.54x), Y3: 187k (1.87x)
-  const MULTIPLIERS = {
-    year1: 1.25,
-    year2: 1.54,
-    year3: 1.87
-  };
+  if (ratnapuraTourForm) {
+    ratnapuraTourForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const fullName = document.getElementById('tourFullName')?.value.trim();
+      const contact = document.getElementById('tourContact')?.value.trim();
+      const selectedPackage = document.getElementById('tourPackageSelect')?.value;
+      const txId = 'tx_tour_' + Date.now().toString(36);
 
-  function formatLKR(amount) {
-    return 'LKR ' + Math.round(amount).toLocaleString('en-US');
-  }
-
-  function calculateYields(principal) {
-    const txId = 'tx_calc_' + Date.now().toString(36);
-
-    // Functional logic validation
-    if (isNaN(principal) || principal <= 0) {
-      const errorMsg = 'Invalid principal amount: Value must be a positive number';
-      if (calcErrorBanner) {
-        calcErrorBanner.textContent = errorMsg;
-        calcErrorBanner.style.display = 'block';
-      }
-      logger.error('functional_logic', errorMsg, {
-        attemptedPrincipal: principal,
-        context: 'investment_calculator'
+      logger.info('navigation', `Ratnapura tour inquiry submitted for ${selectedPackage}`, {
+        fullName,
+        contact,
+        selectedPackage
       }, txId);
-      return;
-    }
 
-    if (principal < 50000 || principal > 50000000) {
-      const errorMsg = 'Principal out of official bounds (Min: LKR 50,000, Max: LKR 50,000,000)';
-      if (calcErrorBanner) {
-        calcErrorBanner.textContent = errorMsg;
-        calcErrorBanner.style.display = 'block';
-      }
-      logger.error('functional_logic', errorMsg, {
-        attemptedPrincipal: principal,
-        min: 50000,
-        max: 50000000
-      }, txId);
-      return;
-    }
-
-    // Clear error
-    if (calcErrorBanner) {
-      calcErrorBanner.style.display = 'none';
-    }
-
-    const y1 = principal * MULTIPLIERS.year1;
-    const y2 = principal * MULTIPLIERS.year2;
-    const y3 = principal * MULTIPLIERS.year3;
-    const netProfitY3 = y3 - principal;
-
-    if (calcPrincipalDisplay) calcPrincipalDisplay.textContent = formatLKR(principal);
-    if (year1ReturnEl) year1ReturnEl.textContent = formatLKR(y1);
-    if (year2ReturnEl) year2ReturnEl.textContent = formatLKR(y2);
-    if (year3ReturnEl) year3ReturnEl.textContent = formatLKR(y3);
-    if (year3ProfitEl) year3ProfitEl.textContent = `+${formatLKR(netProfitY3)} (87% Net Profit)`;
-
-    // Log normal calculator interaction
-    logger.info('navigation', `Investment calculator updated for ${formatLKR(principal)}`, {
-      principal,
-      year1Yield: y1,
-      year2Yield: y2,
-      year3Yield: y3,
-      growth3YearPercent: 87
-    }, txId);
-  }
-
-  if (investmentSlider && customAmountInput) {
-    investmentSlider.addEventListener('input', function () {
-      const val = parseInt(this.value, 10);
-      customAmountInput.value = val;
-      presetButtons.forEach(btn => {
-        btn.classList.toggle('active', parseInt(btn.dataset.amount, 10) === val);
-      });
-      calculateYields(val);
-    });
-
-    customAmountInput.addEventListener('change', function () {
-      const val = parseInt(this.value, 10);
-      if (!isNaN(val)) {
-        investmentSlider.value = Math.min(Math.max(val, 50000), 5000000);
-        presetButtons.forEach(btn => {
-          btn.classList.toggle('active', parseInt(btn.dataset.amount, 10) === val);
+      try {
+        await fetch('/api/inquiries', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Transaction-ID': txId
+          },
+          body: JSON.stringify({
+            fullName: fullName,
+            phone: contact,
+            inquiryType: 'Ratnapura Tourism & Gem Trails',
+            message: `Requested Package: ${selectedPackage}. Contact: ${contact}`
+          })
         });
+      } catch (err) {
+        logger.error('functional_logic', `Could not post tour inquiry to API: ${err.message}`, { error: err.message }, txId);
       }
-      calculateYields(val);
-    });
-  }
 
-  presetButtons.forEach(btn => {
-    btn.addEventListener('click', function () {
-      presetButtons.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      const val = parseInt(this.dataset.amount, 10);
-      if (investmentSlider) investmentSlider.value = val;
-      if (customAmountInput) customAmountInput.value = val;
-      calculateYields(val);
+      if (tourSuccessMsg) {
+        tourSuccessMsg.style.display = 'block';
+      }
+      ratnapuraTourForm.reset();
     });
-  });
-
-  if (openInquiryBtn) {
-    openInquiryBtn.addEventListener('click', function () {
-      const currentVal = customAmountInput ? customAmountInput.value : 500000;
-      openConsultationModal('Investment Partner Program', `Interested in LKR ${parseInt(currentVal).toLocaleString()} Plan`);
-    });
-  }
-
-  // Initial calculation
-  if (customAmountInput) {
-    calculateYields(parseInt(customAmountInput.value, 10) || 500000);
   }
 
   // --------------------------------------------------------------------------
@@ -424,14 +341,14 @@ document.addEventListener('DOMContentLoaded', function () {
       badge: 'Certified Corporation · PV 00364030',
       heroSub: 'Connecting Sri Lanka’s authentic natural bounty, premium spice cultivations, and global educational frontiers to worldwide markets.',
       motto: 'Trust · Stability · Transparent Future',
-      invHeader: 'Secure High-Yield Investment Portfolios',
+      tourHeader: "Discover Ratnapura: Ceylon's Jewel & Nature Capital",
       sinhalaQuote: 'දේශීය නිෂ්පාදන අපනයනය තුළින් ඔබේ ආර්ථිකය රටේ ආර්ථිකය ශක්තිමත් කරන විශ්වාසනීය දේශීය සමාගම.'
     },
     si: {
       badge: 'ලියාපදිංචි සමාගම · PV 00364030',
       heroSub: 'දේශීය කුළුබඩු, කෘෂිකාර්මික වටිනාකම් දාමයන් සහ ගෝලීය අධ්‍යාපන අවස්ථා ලෝකය හා සම්බන්ධ කරන විශ්වාසනීය ශ්‍රී ලාංකේය සමාගම.',
       motto: 'විශ්වාසය · ස්ථාවරත්වය · පැහැදිලි අනාගතය',
-      invHeader: 'සුරක්ෂිත ආයෝජනයෙන් උපරිම ප්‍රතිලාභ',
+      tourHeader: 'රත්නපුර සංචාරක අත්දැකීම: මැණික් හා සොබාදම් අගනගරය',
       sinhalaQuote: 'දේශීය නිෂ්පාදන අපනයනය තුළින් ඔබේ ආර්ථිකය රටේ ආර්ථිකය ශක්තිමත් කරන විශ්වාසනීය දේශීය සමාගම.'
     }
   };
@@ -450,12 +367,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const heroBadge = document.querySelector('.hero-reg-badge span');
       const heroSubtitle = document.querySelector('.hero-subtitle');
       const mottoText = document.querySelector('.company-motto-text');
-      const invTitle = document.querySelector('.investments-title');
+      const tourTitle = document.querySelector('#tourism .section-title');
 
       if (heroBadge) heroBadge.textContent = t.badge;
       if (heroSubtitle) heroSubtitle.textContent = t.heroSub;
       if (mottoText) mottoText.textContent = t.motto;
-      if (invTitle) invTitle.textContent = t.invHeader;
+      if (tourTitle) tourTitle.textContent = t.tourHeader;
     });
   }
 
@@ -574,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (testInfoBtn) {
     testInfoBtn.addEventListener('click', function () {
-      logger.simulateNavigation('#investments-tier-simulation');
+      logger.simulateNavigation('#tourism');
     });
   }
 

@@ -1861,3 +1861,34 @@ textarea.form-control {
     width: 100vw;
   }
 }
+
+/* ==========================================================================
+   Ratnapura Tourism & Heritage Exploration Section Styles
+   ========================================================================== */
+.ratnapura-hero-banner:hover img {
+  transform: scale(1.02);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ratnapura-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 20px var(--gold-glow);
+}
+
+.ratnapura-card:hover img {
+  transform: scale(1.06);
+}
+
+@media (max-width: 768px) {
+  .ratnapura-hero-banner img {
+    height: 320px !important;
+  }
+  .ratnapura-hero-banner > div {
+    padding: 22px !important;
+  }
+  .ratnapura-hero-banner h3 {
+    font-size: 1.5rem !important;
+  }
+}
+

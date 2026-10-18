@@ -91,7 +91,10 @@ const REQUIRED_MEDIA_ASSETS = [
   'company-incorporation-certificate.pdf',
   'company-promotional-video.mp4',
   'ceylon-spices-export.jpeg',
-  'global-maritime-logistics.jpeg'
+  'global-maritime-logistics.jpeg',
+  'ratnapura-gem-landscape.jpeg',
+  'ratnapura-gem-mining.jpeg',
+  'ratnapura-bopath-ella.jpeg'
 ];
 
 /**
